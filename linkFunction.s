@@ -12,10 +12,12 @@ addition:
 	push {lr}
 	bl counter
 	pop {lr}
+	mov r0, #0
 	bx lr
 	counter:
 		add r1, #1
 		bx lr
 exit:
+	mov r0, #0
 	mov r7, #1
 	swi 0
