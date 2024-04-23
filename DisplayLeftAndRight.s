@@ -1,6 +1,6 @@
+.global _start
 @Just put a value into the switch before executing.
 @Also make sure that you're on ARMv7 DE1-SoC
-.global _start
 .equ SWITCH, 0xff200040
 .equ SevenDisplays, 0xff200020
 _start:
