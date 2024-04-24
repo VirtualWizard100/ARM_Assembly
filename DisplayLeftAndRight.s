@@ -7,7 +7,6 @@ _start:
 	ldr r0, =SWITCH
 	ldr r1, =SevenDisplays
 	ldr r3, =0x01000000
-	mov r2, #1
 	ldr r2, [r0]
 	
 ShiftLeft:
