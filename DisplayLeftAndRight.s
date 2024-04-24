@@ -20,7 +20,7 @@ ShiftLeft:
 ShiftRight:
 	lsr r2, #8
 	str r2, [r1]
-	cmp r2, #0xf0
+	cmp r2, #0x80
 	bgt ShiftRight
 	add r9, #1
 	cmp r9, #5
