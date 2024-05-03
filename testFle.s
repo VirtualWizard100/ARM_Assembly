@@ -9,13 +9,13 @@
 
 _start:
 	toupper message, FillBlock
-	mov r8, r0 @r0 returned the length of the newly capitalised string, move r0 into r8 to preserve the length value
+	mov r9, r0 @r0 returned the length of the newly capitalised string, move r0 into r8 to preserve the length value
 	Create inFile, stdin, readWrite
-	mov r9, r0
-	Write r9, message, r8
-	Fsync r9
-	Close r9
-
+	mov r8, r0
+	@Write r8, FillBlock, r9
+	Fsync r8
+	Close r8
+	Chmod inFile, readWrite
 .data
 message:
         .asciz "Oi Lads.\n"
@@ -23,4 +23,4 @@ len = .-message
 inFile:
         .asciz "StringFle.txt"
 FillBlock:
-        .fill 255, 1, 0
+        .fill 250, 1, 0
