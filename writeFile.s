@@ -1,6 +1,6 @@
-.equ stdin, 0
-.equ stdout, 1
-.equ Create, 0100
+@.equ stdin, 0
+@.equ stdout, 1
+@.equ Create, 0100
 .equ filePermissions, 0666
 
 .macro Create fileName, flags, filePermissions
