@@ -1,7 +1,7 @@
 @.equ stdin, 0
 @.equ stdout, 1
 @.equ Create, 0100
-.equ filePermissions, 0666
+@.equ filePermissions, 0666
 
 .macro Create fileName, flags, filePermissions
 	ldr r0, =\fileName		@Load the file name into r0
