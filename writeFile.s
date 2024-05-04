@@ -1,13 +1,13 @@
 @.equ stdin, 0
 @.equ stdout, 1
-@.equ Create, 0100
-@.equ filePermissions, 0666
+@.equ Execute, 0100
+.equ RW, 0666
 
 .macro Create fileName, flags, filePermissions
 	ldr r0, =\fileName		@Load the file name into r0
 	mov r1, #\flags
-	ldr r2, =\filePermissions@Read/Write
-	mov r7, #8		@The Creat Syscall FUnction
+	ldr r2, =RW			@Read/Write
+	mov r7, #8			@The Creat Syscall FUnction
 	svc 0
 .endm
 
@@ -20,9 +20,9 @@
 .endm
 
 .macro Write fileDescriptor, message, length
-	ldr r0, =\fileDescriptor
+	mov r0, \fileDescriptor
 	ldr r1, =\message	@The now capitalised message
-	ldr r2,	\length		@Move the length of the message into r2 for linux function services
+	mov r2,	\length		@Move the length of the message into r2 for linux function services
 	mov r7, #4
 	svc 0
 .endm
