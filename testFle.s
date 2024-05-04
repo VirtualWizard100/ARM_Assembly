@@ -25,7 +25,8 @@ Continue:*/
 	Fsync r8
 	Close r8
 	Chmod inFile, readWrite
-
+	mov r7, #1
+	svc 0
 .data
 message:
         .asciz "Oi Lads.\n"
