@@ -1,27 +1,31 @@
 .include "writeFile.s"
+
 @.equ 0_9, 0x3f200000
 @.equ 10_19, 0x3f200004
 @.equ 20_29, 0x3f200008
 @.equ 30_39, 0x3f20000c
 @.equ 40_49, 0x3f200010
 @.equ 50_53, 0x3f200014
-.equ GPSET_0_31, 0x3f20001c
-.equ GPSET_32_53, 0x3f200020
-.equ GPCLR_0_31, 0x3f200028
+@.equ GPSET_0_31, 0x3f20001c
+@.equ GPSET_32_53, 0x3f200020
+@.equ GPCLR_0_31, 0x3f200028
 .equ gpset_0_31_offset, 28
 .equ gpclr_0_31_offset, 40
-.equ GPCLR_32_53, 0x3f20002c
+@.equ GPCLR_32_53, 0x3f20002c
 .equ pagelen, 4096
 .equ readWrite, 0766
+.equ protectedRead, 1
+.equ protectedWrite, 2
+.equ MAP_SHARED, 1
 
 .macro Mmap2
 	Open fileDescriptor, RW
 	mov r4, r0 		@fd for Mmap2
 	mov r1, #pagelen
-	ldr r5, =0x3f200000	@Load into r5 the memory address for pins 0-9
+	ldr r5, =gpioAddr	@Load into r5 the memory address for pins 0-9
 	ldr r5, [r5]		@Load into r5 the value in the memory address
-	mov r2, #3		@Protected Read (1) + Protected Write (2)
-	mov r3, #1		@Map Shared value
+	mov r2, #(protectedRead + protectedWrite)		@Protected Read (1) + Protected Write (2)
+	mov r3, #MAP_SHARED	@Map Shared value
 	mov r0, #0
 	mov r7, #0xc0
 	svc 0
@@ -36,8 +40,8 @@
 .endm
 
 .macro gpioDirectionOut pin
-	ldr r2, =\pin		@Load the word 00000004 into r2, which is the offset address
-	ldr r2, [r2]		@Obtain the value 4 from r2
+	ldr r2, =\pin		@Load the first word from the Pin into r2, which is the offset address
+	ldr r2, [r2]		@Obtain the value to offset from r2
 	ldr r1, [r8, r2]	@Offset the gpio access address by the amount of the pin you want to use to access the pin
 	ldr r3, =\pin
 	add r3, #4
@@ -74,6 +78,8 @@
 .endm
 
 .data
+gpioAddr:
+	.word 0x3f200
 Pin17:
 	.word 4
 	.word 21
